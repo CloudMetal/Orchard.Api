@@ -1,0 +1,10 @@
+﻿Name: Orchard.Api
+AntiForgery: enabled
+Author: The Orchard Team
+Website: http://orchardproject.net
+Version: 0.1
+OrchardVersion: 1.6
+Description: Description for the module
+Features:
+    Orchard.Api:
+        Description: Description for feature Orchard.Api.
