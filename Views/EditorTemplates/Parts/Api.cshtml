@@ -1,0 +1,11 @@
+﻿@model Orchard.Api.Models.ApiPart
+
+<fieldset>
+    <legend>@T("REST API")</legend>
+    <div>
+         @Html.EditorFor(m => m.Enabled)
+        <label for="@Html.FieldIdFor(m => m.Enabled)" class="forcheckbox">@T("Enable API Access")</label>
+        @Html.ValidationMessage("Enabled", "*")
+    </div>
+    
+</fieldset>

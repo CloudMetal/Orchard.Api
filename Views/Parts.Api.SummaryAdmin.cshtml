@@ -1,0 +1,13 @@
+﻿@using Orchard.Api.Models
+@{
+    Style.Include("orchard-api-admin.css");
+    ApiPart contentPart = Model.ContentPart;
+}
+
+@if (contentPart.Enabled) {
+
+    <div class="api">
+        <img class="icon" src="@Href("~/Modules/Orchard.Api/Styles/Images/lock.gif")" alt="@T("API Enabled")" title="@T("API Enabled")" /> 
+        @T("API Enabled")
+    </div>
+}

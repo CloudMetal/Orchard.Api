@@ -1,0 +1,7 @@
+﻿<Placement>
+  <Place Parts_Api_Edit="Content:10"/>
+
+  <Match DisplayType="SummaryAdmin">
+    <Place Parts_Api_SummaryAdmin="Meta:5"/>
+  </Match>
+</Placement>
