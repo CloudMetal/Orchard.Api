@@ -26,5 +26,15 @@ namespace Orchard.Api
 
             return 1;
         }
+
+        public int UpdateFrom1() {
+
+            SchemaBuilder.CreateTable("ApiSettingsPartRecord", table => table
+                .ContentPartRecord()
+                .Column<bool>("Enabled")
+                );
+
+            return 2;
+        }
     }
 }
