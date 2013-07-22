@@ -5,6 +5,7 @@ using System.Web;
 using Orchard.Api.Models;
 using Orchard.ContentManagement;
 using Orchard.ContentManagement.Drivers;
+using Orchard.ContentManagement.Handlers;
 using Orchard.Localization;
 
 namespace Orchard.Api.Drivers
@@ -35,6 +36,20 @@ namespace Orchard.Api.Drivers
 
             updater.TryUpdateModel(part, Prefix, null, null);
             return Editor(part, shapeHelper);
+        }
+
+        protected override void Importing(ApiSettingsPart part, ImportContentContext context)
+        {
+            var enabled = context.Attribute(part.PartDefinition.Name, "Enabled");
+            if (enabled != null)
+            {
+                part.Enabled = Convert.ToBoolean(enabled);
+            }
+        }
+
+        protected override void Exporting(ApiSettingsPart part, ExportContentContext context)
+        {
+            context.Element(part.PartDefinition.Name).SetAttributeValue("Enabled", part.Enabled ? "true" : "false");
         }
     }
 }

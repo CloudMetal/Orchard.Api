@@ -1,0 +1,6 @@
+﻿@model Orchard.Api.Settings.ApiPartSettings
+
+<fieldset><label>@T("Enabled:")</label>
+    @Html.EditorFor(m => m.Enabled, new { @class = "forcheckbox" })
+    <span class="hint">@T("Enables or disables API access for the content item.")</span>
+</fieldset>
