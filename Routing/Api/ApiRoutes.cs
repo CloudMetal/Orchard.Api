@@ -20,10 +20,16 @@ namespace Orchard.Api.Routing.Api
 											Defaults = new	{ area = "Orchard.Api", controller = "ContentTypeDefinitionApi", name = RouteParameter.Optional}		
 										},
                 new HttpRouteDescriptor {
+											Name = "ContentByTypeApiRoute",
+											Priority = 10,
+											RouteTemplate = "api/{contentType}",
+											Defaults = new	{ area = "Orchard.Api", controller = "ContentApi" }		
+										},
+                new HttpRouteDescriptor {
 											Name = "ContentApiRoute",
 											Priority = 10,
-											RouteTemplate = "api/{contentType}/{id}",
-											Defaults = new	{ area = "Orchard.Api", controller = "ContentApi", id = RouteParameter.Optional }		
+											RouteTemplate = "api/Content/{id}",
+											Defaults = new	{ area = "Orchard.Api", controller = "ContentApi" }		
 										},
                 new HttpRouteDescriptor {
 											Name = "ContentPartApiRoute",

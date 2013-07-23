@@ -4,10 +4,12 @@ using System.Linq;
 using System.Web;
 using System.Web.Http;
 using Orchard.Api.ApiModels;
+using Orchard.Api.Filters;
 using Orchard.ContentManagement.MetaData;
 
 namespace Orchard.Api.Controllers.Api
 {
+    [ApiAuthorizationFilter]
     public class ContentTypeDefinitionApiController : ApiController {
         private readonly IContentDefinitionManager _contentDefinitionManager;
         public ContentTypeDefinitionApiController(IContentDefinitionManager contentDefinitionManager) {

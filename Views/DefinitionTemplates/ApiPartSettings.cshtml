@@ -1,6 +1,22 @@
 ﻿@model Orchard.Api.Settings.ApiPartSettings
+@{
+    Script.Require("jQuery").AtHead();
+}
 
 <fieldset><label>@T("Enabled:")</label>
-    @Html.EditorFor(m => m.Enabled, new { @class = "forcheckbox" })
+    @Html.CheckBox("apiEnabled", true);
     <span class="hint">@T("Enables or disables API access for the content item.")</span>
+    @Html.HiddenFor(m => m.Enabled)
+    
+    <script type="text/javascript">
+        $(function() {
+            $('#@Html.Id("apiEnabled")').click(function () {
+                if ($(this).is(':checked')) {
+                    $('#@Html.IdFor(m => m.Enabled)').val('true');
+                } else {
+                    $('#@Html.IdFor(m => m.Enabled)').val('false');
+                }
+            });
+        });
+    </script>
 </fieldset>

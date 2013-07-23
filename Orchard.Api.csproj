@@ -75,6 +75,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\lib\aspnetwebapi\System.Net.Http.WebRequest.dll</HintPath>
     </Reference>
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Spatial, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\System.Spatial.5.2.0\lib\net40\System.Spatial.dll</HintPath>
@@ -116,6 +117,10 @@
       <Project>{9916839C-39FC-4CEB-A5AF-89CA7E87119F}</Project>
       <Name>Orchard.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Orchard.Users\Orchard.Users.csproj">
+      <Project>{79aed36e-abd0-4747-93d3-8722b042454b}</Project>
+      <Name>Orchard.Users</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\" />
@@ -131,6 +136,9 @@
     <Compile Include="Controllers\Api\ContentTypeDefinitionApiController.cs" />
     <Compile Include="Drivers\ApiPartDriver.cs" />
     <Compile Include="Drivers\ApiSettingsPartDriver.cs" />
+    <Compile Include="Filters\ApiAuthorizationFilterAttribute.cs" />
+    <Compile Include="Filters\IApiResultFilter.cs" />
+    <Compile Include="Filters\ValidationActionFilter.cs" />
     <Compile Include="Handlers\ApiPartHandler.cs" />
     <Compile Include="Handlers\ApiSettingsPartHandler.cs" />
     <Compile Include="Migrations.cs" />
@@ -139,6 +147,8 @@
     <Compile Include="Models\ApiSettingsPart.cs" />
     <Compile Include="Models\ApiSettingsPartRecord.cs" />
     <Compile Include="Routing\Api\ApiRoutes.cs" />
+    <Compile Include="Security\BasicAuthenticationSecurityProvider.cs" />
+    <Compile Include="Security\IApiAuthorizationProvider.cs" />
     <Compile Include="Settings\ApiPartSettings.cs" />
     <Compile Include="Settings\ApiPartSettingsEvents.cs" />
   </ItemGroup>
