@@ -71,8 +71,11 @@ namespace Orchard.Api.Controllers.Api
             // see if we have a Record property...
             var recordPropertyInfo = part.GetType().GetProperty("Record");
             if (recordPropertyInfo != null) {
+                var serializer = new JsonSerializer {ReferenceLoopHandling = ReferenceLoopHandling.Ignore};
+
                 // get the value and serialize it...
-                partObject = JObject.FromObject(recordPropertyInfo.GetValue(part, BindingFlags.GetProperty, null, null, null));
+                partObject = JObject.FromObject(recordPropertyInfo.GetValue(part, BindingFlags.GetProperty, null, null, null),
+                    serializer);
             }
 
             if (partObject == null) {
