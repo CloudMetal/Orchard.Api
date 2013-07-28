@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Orchard.Api.Filters;
 using Orchard.ContentManagement;
+using Orchard.ContentManagement.FieldStorage;
 
 namespace Orchard.Api.Controllers.Api
 {
@@ -66,7 +67,7 @@ namespace Orchard.Api.Controllers.Api
         }
 
         protected JObject SerializePart(ContentPart part) {
-            JObject partObject = null;
+            var partObject = new JObject();
 
             // see if we have a Record property...
             var recordPropertyInfo = part.GetType().GetProperty("Record");
@@ -74,21 +75,57 @@ namespace Orchard.Api.Controllers.Api
                 var serializer = new JsonSerializer {ReferenceLoopHandling = ReferenceLoopHandling.Ignore};
 
                 // get the value and serialize it...
-                partObject = JObject.FromObject(recordPropertyInfo.GetValue(part, BindingFlags.GetProperty, null, null, null),
+                JObject recordObject = JObject.FromObject(recordPropertyInfo.GetValue(part, BindingFlags.GetProperty, null, null, null),
                     serializer);
-            }
-
-            if (partObject == null) {
-                partObject = new JObject();
+                partObject.Add("Record", recordObject);
             }
 
             // now add the fields to the json object....
+            var fieldsArray = new JArray();
+
+            foreach (var contentField in part.Fields) {
+                var fieldObject = SerializeField(contentField);
+                fieldsArray.Add(fieldObject);
+            }
+
+            partObject.Add("Fields", fieldsArray);
+
+            // add the settings...
+            var settingsObject = new JObject();
+
+            foreach ( var key in part.Settings.Keys) {
+                settingsObject.Add(new JProperty(key, part.Settings[key]));
+            }
+
+            partObject.Add("Settings", settingsObject);
+
+            // add the part settings...
+            var partSettingsObject = new JObject();
+
+            foreach (string key in part.TypePartDefinition.Settings.Keys) {
+                partSettingsObject.Add(new JProperty(key, part.TypePartDefinition.Settings[key]));
+            }
+
+            partObject.Add("TypePartDefinition.Settings", partSettingsObject);
 
             return partObject;
         }
 
         protected JObject SerializeField(ContentField field) {
-            JObject fieldObject = null;
+            var fieldObject = new JObject();
+            fieldObject.Add(new JProperty("Name", field.Name));
+            fieldObject.Add(new JProperty("DisplayName", field.DisplayName));
+            fieldObject.Add(new JProperty("Value", field.Storage.Get<string>()));
+
+            // add the part settings...
+            var fieldSettingsObject = new JObject();
+
+            foreach (string key in field.PartFieldDefinition.Settings.Keys)
+            {
+                fieldSettingsObject.Add(new JProperty(key, field.PartFieldDefinition.Settings[key]));
+            }
+
+            fieldObject.Add("PartFieldDefinition.Settings", fieldSettingsObject);
 
             return fieldObject;
         }
