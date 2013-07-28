@@ -72,12 +72,15 @@ namespace Orchard.Api.Controllers.Api
             // see if we have a Record property...
             var recordPropertyInfo = part.GetType().GetProperty("Record");
             if (recordPropertyInfo != null) {
-                var serializer = new JsonSerializer {ReferenceLoopHandling = ReferenceLoopHandling.Ignore};
 
                 // get the value and serialize it...
-                JObject recordObject = JObject.FromObject(recordPropertyInfo.GetValue(part, BindingFlags.GetProperty, null, null, null),
+                object val = recordPropertyInfo.GetValue(part, BindingFlags.GetProperty, null, null, null);
+                if (val != null) {
+                    var serializer = new JsonSerializer { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
+                    JObject recordObject = JObject.FromObject(val,
                     serializer);
-                partObject.Add("Record", recordObject);
+                    partObject.Add("Record", recordObject);
+                }
             }
 
             // now add the fields to the json object....
